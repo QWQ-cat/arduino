@@ -8,6 +8,7 @@ LiquidCrystal_PCF8574 lcd(0x27);  // 設定i2c位址，一般情況就是0x27和
 DHT dht(DHTPIN, DHTTYPE);
 float v =3;
 float ssd = 0;
+char text ="";
 void setup()
 {
   Serial.begin(9600);
@@ -31,6 +32,25 @@ void loop()
   float h = dht.readHumidity();   //取得濕度
   float t = dht.readTemperature();  //取得溫度C
   ssd = (1.818*t+18.18)*(0.88+0.002*h)+(t-32)/(45-t)-(3.2*v)+18.2; //計算舒適度指數
+  if(ssd>=86){
+     text ="Very Hot";
+  }else if(ssd<=85&ssd>=80){
+     text ="Hot";
+  }else if(ssd<=76&ssd>=76){
+     text ="Little Hot";
+  }else if(ssd<=75&ssd>=71){
+     text ="Nice";
+  }else if(ssd<=70&ssd>=59){
+     text ="Nice Weather";
+  }else if(ssd<=58&ssd>=51){
+     text ="Little Cold";
+  }else if(ssd<=50&ssd>=39){
+     text ="Cold";
+  }else if(ssd<=38&ssd>=26){
+     text ="Very Cold";
+  }else{
+     text ="Super Cold";
+  }
   Serial.print("Humidity: ");
   Serial.print(h);
   Serial.print(" %\t");
@@ -63,5 +83,7 @@ void loop()
   lcd.print("SSD :");
   lcd.setCursor(7, 0);
   lcd.print(ssd);
+  lcd.setCursor(0, 1);
+  lcd.print(text);
   delay(3000);
 } // loop()
