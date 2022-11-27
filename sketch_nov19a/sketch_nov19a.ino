@@ -8,7 +8,6 @@ LiquidCrystal_PCF8574 lcd(0x27);  // 設定i2c位址，一般情況就是0x27和
 DHT dht(DHTPIN, DHTTYPE);
 float v =3;
 float ssd = 0;
-char text ="";
 void setup()
 {
   Serial.begin(9600);
@@ -32,25 +31,7 @@ void loop()
   float h = dht.readHumidity();   //取得濕度
   float t = dht.readTemperature();  //取得溫度C
   ssd = (1.818*t+18.18)*(0.88+0.002*h)+(t-32)/(45-t)-(3.2*v)+18.2; //計算舒適度指數
-  if(ssd>=86){
-     text ="Very Hot";
-  }else if(ssd<=85&ssd>=80){
-     text ="Hot";
-  }else if(ssd<=76&ssd>=76){
-     text ="Little Hot";
-  }else if(ssd<=75&ssd>=71){
-     text ="Nice";
-  }else if(ssd<=70&ssd>=59){
-     text ="Nice Weather";
-  }else if(ssd<=58&ssd>=51){
-     text ="Little Cold";
-  }else if(ssd<=50&ssd>=39){
-     text ="Cold";
-  }else if(ssd<=38&ssd>=26){
-     text ="Very Cold";
-  }else{
-     text ="Super Cold";
-  }
+  
   Serial.print("Humidity: ");
   Serial.print(h);
   Serial.print(" %\t");
@@ -58,8 +39,28 @@ void loop()
   Serial.print(t);
   Serial.print(" *C \t");
   Serial.print("Thermal comfort: ");
-  Serial.println(ssd);
-
+  Serial.print(ssd);
+  Serial.print("\t");
+  if(ssd>85){
+    Serial.println("Very Hot");
+  }else if(ssd<=85&ssd>80){
+    Serial.println("Hot");
+  }else if(ssd<=80&ssd>76){
+    Serial.println("Little Hot");
+  }else if(ssd<=76&ssd>71){
+    Serial.println("Nice");
+  }else if(ssd<=71&ssd>59){
+    Serial.println("Nice Weather");
+  }else if(ssd<=59&ssd>51){
+    Serial.println("Little Cold");
+  }else if(ssd<=51&ssd>39){
+    Serial.println("Cold");
+  }else if(ssd<=39&ssd>=26){
+    Serial.println("Very Cold");
+  }else if(ssd>26){
+    Serial.println("Super Cold");
+  }
+  
   lcd.clear();
   lcd.setCursor(0, 0);  //設定游標位置 (字,行)
   lcd.print("RH  :");  //Relative Humidity 相對濕度簡寫
@@ -84,6 +85,24 @@ void loop()
   lcd.setCursor(7, 0);
   lcd.print(ssd);
   lcd.setCursor(0, 1);
-  lcd.print(text);
+  if(ssd>85){
+    lcd.print("Very Hot");
+  }else if(ssd<=85&ssd>80){
+    lcd.print("Hot");
+  }else if(ssd<=80&ssd>76){
+    lcd.print("Little Hot");
+  }else if(ssd<=76&ssd>71){
+    lcd.print("Nice");
+  }else if(ssd<=71&ssd>59){
+    lcd.print("Nice Weather");
+  }else if(ssd<=59&ssd>51){
+    lcd.print("Little Cold");
+  }else if(ssd<=51&ssd>39){
+    lcd.print("Cold");
+  }else if(ssd<=39&ssd>=26){
+    lcd.print("Very Cold");
+  }else if(ssd>26){
+    lcd.print("Super Cold");
+  }
   delay(3000);
 } // loop()
