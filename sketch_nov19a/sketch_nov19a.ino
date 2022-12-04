@@ -6,7 +6,7 @@
 //#define DHTTYPE DHT21   // DHT 21
 LiquidCrystal_PCF8574 lcd(0x27);  // 設定i2c位址，一般情況就是0x27和0x3F兩種
 DHT dht(DHTPIN, DHTTYPE);
-float v =3;
+float v =3.5;
 float ssd = 0;
 void setup()
 {
