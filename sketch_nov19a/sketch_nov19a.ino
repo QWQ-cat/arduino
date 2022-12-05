@@ -57,7 +57,7 @@ void loop()
     Serial.println("Cold");
   }else if(ssd<=39&ssd>=26){
     Serial.println("Very Cold");
-  }else if(ssd>26){
+  }else if(ssd<26){
     Serial.println("Super Cold");
   }
   
@@ -101,7 +101,7 @@ void loop()
     lcd.print("Cold");
   }else if(ssd<=39&ssd>=26){
     lcd.print("Very Cold");
-  }else if(ssd>26){
+  }else if(ssd<26){
     lcd.print("Super Cold");
   }
   delay(3000);
